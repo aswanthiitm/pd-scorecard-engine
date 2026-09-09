@@ -1,0 +1,13 @@
+feature,iv,strength,bins,monotonic,missing_rate
+revolving_utilisation,1.1119927296651804,very strong (verify it is not leakage),6,True,0.0
+dpd_90_plus,0.8025035044170986,very strong (verify it is not leakage),2,True,0.0018381127439308946
+dpd_30_59,0.7000800009421162,very strong (verify it is not leakage),3,True,0.0018381127439308946
+dpd_60_89,0.5295588240291702,very strong (verify it is not leakage),2,True,0.0018381127439308946
+age,0.257534469798397,medium,6,True,0.0
+open_lines,0.09456073501933313,weak,5,True,0.0
+monthly_income,0.08629160342098026,weak,5,True,0.19811617253497651
+dependents,0.030033156764210714,weak,4,True,0.026219297326641206
+debt_ratio,0.010693453990509156,unpredictive,3,True,0.0
+debt_ratio_is_amount,0.00625826320207663,unpredictive,2,True,0.0
+real_estate_lines,0.004669459010570812,unpredictive,2,True,0.0
+has_sentinel_history,0.0,unpredictive,1,True,0.0
