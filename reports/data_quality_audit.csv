@@ -1,0 +1,9 @@
+issue,rows,action
+dpd_30_59 sentinel code (96/98),269,"set to missing, later given its own WOE bin"
+dpd_60_89 sentinel code (96/98),269,"set to missing, later given its own WOE bin"
+dpd_90_plus sentinel code (96/98),269,"set to missing, later given its own WOE bin"
+revolving utilisation above 10x the limit,241,left as is — WOE binning and the GBM are both rank-based
+"debt ratio above 10 (field holds a rupee amount, not a ratio)",28877,"flagged, not capped — 93% of them have no monthly income"
+age below 18,1,dropped
+monthly income missing,29731,kept missing — the missingness itself carries signal
+dependents missing,3924,kept missing

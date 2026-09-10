@@ -1,0 +1,317 @@
+{
+  "generated_on": "2026-09-09",
+  "data": {
+    "rows": 149999,
+    "train": 104999,
+    "test": 45000,
+    "bad_rate": 0.06684,
+    "audit": [
+      {
+        "issue": "dpd_30_59 sentinel code (96/98)",
+        "rows": 269,
+        "action": "set to missing, later given its own WOE bin"
+      },
+      {
+        "issue": "dpd_60_89 sentinel code (96/98)",
+        "rows": 269,
+        "action": "set to missing, later given its own WOE bin"
+      },
+      {
+        "issue": "dpd_90_plus sentinel code (96/98)",
+        "rows": 269,
+        "action": "set to missing, later given its own WOE bin"
+      },
+      {
+        "issue": "revolving utilisation above 10x the limit",
+        "rows": 241,
+        "action": "left as is \u2014 WOE binning and the GBM are both rank-based"
+      },
+      {
+        "issue": "debt ratio above 10 (field holds a rupee amount, not a ratio)",
+        "rows": 28877,
+        "action": "flagged, not capped \u2014 93% of them have no monthly income"
+      },
+      {
+        "issue": "age below 18",
+        "rows": 1,
+        "action": "dropped"
+      },
+      {
+        "issue": "monthly income missing",
+        "rows": 29731,
+        "action": "kept missing \u2014 the missingness itself carries signal"
+      },
+      {
+        "issue": "dependents missing",
+        "rows": 3924,
+        "action": "kept missing"
+      }
+    ]
+  },
+  "binning": {
+    "iv": [
+      {
+        "feature": "revolving_utilisation",
+        "iv": 1.112,
+        "strength": "very strong (verify it is not leakage)",
+        "bins": 6,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "dpd_90_plus",
+        "iv": 0.8025,
+        "strength": "very strong (verify it is not leakage)",
+        "bins": 2,
+        "monotonic": true,
+        "missing_rate": 0.0018
+      },
+      {
+        "feature": "dpd_30_59",
+        "iv": 0.7001,
+        "strength": "very strong (verify it is not leakage)",
+        "bins": 3,
+        "monotonic": true,
+        "missing_rate": 0.0018
+      },
+      {
+        "feature": "dpd_60_89",
+        "iv": 0.5296,
+        "strength": "very strong (verify it is not leakage)",
+        "bins": 2,
+        "monotonic": true,
+        "missing_rate": 0.0018
+      },
+      {
+        "feature": "age",
+        "iv": 0.2575,
+        "strength": "medium",
+        "bins": 6,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "open_lines",
+        "iv": 0.0946,
+        "strength": "weak",
+        "bins": 5,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "monthly_income",
+        "iv": 0.0863,
+        "strength": "weak",
+        "bins": 5,
+        "monotonic": true,
+        "missing_rate": 0.1981
+      },
+      {
+        "feature": "dependents",
+        "iv": 0.03,
+        "strength": "weak",
+        "bins": 4,
+        "monotonic": true,
+        "missing_rate": 0.0262
+      },
+      {
+        "feature": "debt_ratio",
+        "iv": 0.0107,
+        "strength": "unpredictive",
+        "bins": 3,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "debt_ratio_is_amount",
+        "iv": 0.0063,
+        "strength": "unpredictive",
+        "bins": 2,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "real_estate_lines",
+        "iv": 0.0047,
+        "strength": "unpredictive",
+        "bins": 2,
+        "monotonic": true,
+        "missing_rate": 0.0
+      },
+      {
+        "feature": "has_sentinel_history",
+        "iv": 0.0,
+        "strength": "unpredictive",
+        "bins": 1,
+        "monotonic": true,
+        "missing_rate": 0.0
+      }
+    ],
+    "selected_by_iv": [
+      "revolving_utilisation",
+      "dpd_90_plus",
+      "dpd_30_59",
+      "dpd_60_89",
+      "age",
+      "open_lines",
+      "monthly_income",
+      "dependents"
+    ],
+    "dropped_low_iv": [
+      "debt_ratio",
+      "real_estate_lines",
+      "has_sentinel_history",
+      "debt_ratio_is_amount"
+    ]
+  },
+  "scorecard": {
+    "features": [
+      "revolving_utilisation",
+      "dpd_90_plus",
+      "dpd_30_59",
+      "dpd_60_89",
+      "age",
+      "monthly_income",
+      "dependents"
+    ],
+    "coefficients": {
+      "revolving_utilisation": -0.643,
+      "dpd_90_plus": -0.5108,
+      "dpd_30_59": -0.5324,
+      "dpd_60_89": -0.3836,
+      "age": -0.3995,
+      "monthly_income": -0.3854,
+      "dependents": -0.2894
+    },
+    "wrong_signed_dropped": [
+      "open_lines"
+    ],
+    "auc_with_wrong_signed": 0.8496,
+    "auc_after_dropping": 0.8497,
+    "scaling": {
+      "base_score": 600.0,
+      "base_odds": 50.0,
+      "pdo": 20.0
+    },
+    "points_range": [
+      37.1,
+      104.2
+    ]
+  },
+  "performance": {
+    "train": {
+      "auc": 0.8531,
+      "gini": 0.7062,
+      "ks": 0.5502,
+      "bad_rate": 0.0668,
+      "rank_ordering_breaks": 0,
+      "top_decile_lift": 5.3505,
+      "bads_caught_in_riskiest_30pct": 0.8093,
+      "hl_chi2": 119.3315,
+      "hl_dof": 8,
+      "hl_p_value": 0.0,
+      "hl_well_calibrated_5pct": false
+    },
+    "test": {
+      "auc": 0.8497,
+      "gini": 0.6994,
+      "ks": 0.5419,
+      "bad_rate": 0.0668,
+      "rank_ordering_breaks": 0,
+      "top_decile_lift": 5.3657,
+      "bads_caught_in_riskiest_30pct": 0.8015,
+      "hl_chi2": 38.6466,
+      "hl_dof": 8,
+      "hl_p_value": 0.0,
+      "hl_well_calibrated_5pct": false
+    }
+  },
+  "challenger": {
+    "auc": 0.8638,
+    "gini": 0.7275,
+    "ks": 0.5744,
+    "auc_premium_over_scorecard": 0.014
+  },
+  "stability": {
+    "psi_train_vs_test": 0.0001,
+    "verdict": "stable",
+    "psi_vs_below_median_income_segment": 0.0279,
+    "verdict_stress": "stable",
+    "max_calibration_gap_bp": 84.8
+  },
+  "policy": {
+    "profit_maximising": {
+      "cutoff": 534.4387,
+      "approval_rate": 0.9104,
+      "approved_accounts": 40969.0,
+      "observed_bad_rate": 0.0361,
+      "predicted_pd": 0.037,
+      "expected_loss_cr": 19.688,
+      "revenue_cr": 104.5506,
+      "profit_cr": 84.8625,
+      "rwa_cr": 716.0161,
+      "capital_cr": 82.3419,
+      "rorwa_pct": 5.926,
+      "roc_pct": 51.5306
+    },
+    "risk_appetite_3pct_bad_rate": {
+      "cutoff": 550.0832,
+      "approval_rate": 0.8478,
+      "approved_accounts": 38150.0,
+      "observed_bad_rate": 0.029,
+      "predicted_pd": 0.0306,
+      "expected_loss_cr": 15.1619,
+      "revenue_cr": 97.6738,
+      "profit_cr": 82.5119,
+      "rwa_cr": 649.5455,
+      "capital_cr": 74.6977,
+      "rorwa_pct": 6.3515,
+      "roc_pct": 55.2305
+    },
+    "approve_everyone": {
+      "approval_rate": 1.0,
+      "observed_bad_rate": 0.0668,
+      "expected_loss_cr": 39.246,
+      "revenue_cr": 113.075,
+      "profit_cr": 73.829,
+      "rwa_cr": 837.96,
+      "capital_cr": 96.37
+    },
+    "assumptions": {
+      "ead_inr": 200000.0,
+      "lgd": 0.65,
+      "test_book_cr": 900.0
+    }
+  },
+  "swap_set": {
+    "at_approval_rate": 0.8478,
+    "table": [
+      {
+        "segment": "approved by both",
+        "accounts": 36902,
+        "share": 0.82,
+        "bad_rate": 0.0253
+      },
+      {
+        "segment": "swap-in (B approves, A declines)",
+        "accounts": 1248,
+        "share": 0.0277,
+        "bad_rate": 0.0801
+      },
+      {
+        "segment": "swap-out (A approves, B declines)",
+        "accounts": 1248,
+        "share": 0.0277,
+        "bad_rate": 0.1402
+      },
+      {
+        "segment": "declined by both",
+        "accounts": 5602,
+        "share": 0.1245,
+        "bad_rate": 0.3213
+      }
+    ],
+    "credit_loss_saved_cr": 0.97,
+    "note": "value of the challenger's extra ranking power, at an identical approval rate"
+  }
+}
