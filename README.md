@@ -1,10 +1,9 @@
-# PD Scorecard & Lending Policy Engine
+# Customer Risk Scoring & Approval Strategy
 
-A complete retail credit-risk build on 150,000 real borrower records: data-quality
-forensics, monotonic weight-of-evidence binning, an auditable points scorecard, full
-validation, a gradient-boosting challenger, and — the part most scorecard projects stop
-short of — **the cut-off decision**, priced in expected credit loss, profit, Basel IRB
-risk-weighted assets and return on regulatory capital.
+A retail portfolio of **150,000 customers**, taken from raw data all the way to the approval
+decision it is meant to support: data-quality forensics, a predictive scoring model, full
+validation, and — the part most scoring projects stop short of — **the cut-off itself**,
+priced in expected loss, profit and the capital it consumes.
 
 ```bash
 uv venv --python 3.12 .venv && source .venv/bin/activate
@@ -15,15 +14,15 @@ python scripts/run_pipeline.py    # figures, scorecard.csv, results.json
 pytest -q                          # 28 tests
 ```
 
-**Data.** Give Me Some Credit (Kaggle, 2011; mirrored on OpenML) — 150,000 accounts, a
-two-year serious-delinquency outcome, **6.68% bad rate**. It is the standard public stand-in
-for an unsecured retail book.
+**Data.** Give Me Some Credit (Kaggle, 2011; mirrored on OpenML) — 150,000 customer accounts,
+a two-year outcome window, **6.68% bad rate**. The standard public stand-in for an unsecured
+retail portfolio.
 
 ---
 
 ## Headline
 
-| | scorecard | GBM challenger |
+| | scoring model | gradient-boosting challenger |
 |---|---|---|
 | test AUC | **0.8497** | 0.8638 |
 | Gini | **0.699** | 0.728 |
@@ -31,9 +30,9 @@ for an unsecured retail book.
 | rank-ordering breaks across 10 deciles | **0** | — |
 | explainable to a customer | **yes** | no |
 
-The riskiest 30% of the book contains **80% of all defaults**; top-decile lift is **5.4x**.
+The riskiest 30% of the portfolio contains **80% of all defaults**; top-decile lift is **5.4x**.
 Against a naive approve-everyone policy, the recommended cut-off lifts two-year profit on a
-₹900 crore test book from ₹73.8 cr to **₹82.5 cr** while cutting risk-weighted assets by
+₹900 crore portfolio from ₹73.8 cr to **₹82.5 cr** while cutting risk-weighted assets by
 **₹188 cr**.
 
 ---
@@ -56,7 +55,7 @@ it. Capping is a fix for models that read the magnitude; this pipeline has none.
 
 ---
 
-## 2. Binning and information value
+## 2. Turning raw fields into stable predictors
 
 ![information value](reports/figures/01_information_value.png)
 
@@ -86,7 +85,7 @@ values took `dpd_60_89` from **IV 0.00 to IV 0.53**.
 
 ---
 
-## 3. The scorecard
+## 3. The scoring model
 
 Logistic regression on WOE, scaled the standard way: 600 points means 50:1 odds, and every
 20 points doubles the odds. The full points table is in `reports/scorecard.csv` and every
@@ -144,7 +143,7 @@ production the out-of-time run is the one that matters.
 
 ---
 
-## 5. The cut-off — where a scorecard becomes a decision
+## 5. The cut-off — where a score becomes a business decision
 
 A scorecard makes no money. A cut-off does, and choosing one is economics, not statistics.
 Assumptions: ₹2,00,000 exposure per account, 65% LGD, 16% APR against a 7% cost of funds and
@@ -169,7 +168,7 @@ marginal account at the cut-off is far more capital-hungry than the portfolio av
 
 ---
 
-## 6. What the challenger is actually worth
+## 6. What the more complex model is actually worth
 
 ![swap set](reports/figures/05_swapset_scorecard.png)
 
