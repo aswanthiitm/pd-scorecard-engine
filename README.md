@@ -10,9 +10,15 @@ uv venv --python 3.12 .venv && source .venv/bin/activate
 uv pip install -r requirements.txt
 curl -L https://openml.org/data/v1/download/22125240/GiveMeSomeCredit.arff \
      -o data/raw/GiveMeSomeCredit.arff
-python scripts/run_pipeline.py    # figures, scorecard.csv, results.json
+streamlit run app.py               # interactive cut-off explorer
+python scripts/run_pipeline.py     # figures, scorecard.csv, results.json
 pytest -q                          # 28 tests
 ```
+
+**The dashboard** (`app.py`) is the quickest way in: drag the approval rate and watch bad
+rate, expected loss, profit and capital move together — they never move in the same
+direction, which is the whole point of the project. The source file downloads itself on
+first run, so a hosted copy needs no setup.
 
 **Data.** Give Me Some Credit (Kaggle, 2011; mirrored on OpenML) — 150,000 customer accounts,
 a two-year outcome window, **6.68% bad rate**. The standard public stand-in for an unsecured
